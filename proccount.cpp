@@ -1,8 +1,4 @@
 /* ---- This file is modified by Harinder Pal (2014MCS2123)  --- */
-//
-// This tool counts the number of times a routine is executed and 
-// the number of instructions executed in a routine
-//
 
 #include <fstream>
 #include <iomanip>
@@ -21,7 +17,7 @@ VOID RecordMemRead(VOID * ip, VOID * addr, string fn)
     //outFile << ip << " :R: " << addr;
     //operation = operation + (string)ip;
    outFile << ip << " :R: " << addr << endl;
-	//fprintf(trace,"%p: R %p\n", ip, addr);
+    //fprintf(trace,"%p: R %p\n", ip, addr);
 }
 
 /*VOID GetBasePtr(ADDRINT reg)
@@ -75,7 +71,7 @@ RTN_NAME * RtnList = 0;*/
         return file+1;
     else
         return path;
-} */
+}*/
 
 // Pin calls this function every time a new rtn is executed
 VOID Routine(RTN rtn, VOID *v)
@@ -157,14 +153,12 @@ VOID Routine(RTN rtn, VOID *v)
 		INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount, IARG_PTR, &(rc->_icount), IARG_END);
 	    }
 
-	    
-	    RTN_Close(rtn); */
-		RTN_Close(rtn);
+	    */
+	    RTN_Close(rtn);
 	}
 }
 
 // This function is called when the application exits
-// It prints the name and count for each procedure
 VOID Fini(INT32 code, VOID *v)
 {
 
@@ -197,8 +191,8 @@ VOID Fini(INT32 code, VOID *v)
 
 INT32 Usage()
 {
-    cerr << "This Pintool counts the number of times a routine is executed" << endl;
-    cerr << "and the number of instructions executed in a routine" << endl;
+    //cerr << "This Pintool counts the number of times a routine is executed" << endl;
+    //cerr << "and the number of instructions executed in a routine" << endl;
     cerr << endl << KNOB_BASE::StringKnobSummary() << endl;
     return -1;
 }
@@ -214,14 +208,14 @@ int main(int argc, char * argv[])
 
     outFile.open("myFile.out");
 
-	trace = fopen("proccount.out", "w");
+    //trace = fopen("proccount.out", "w");
 
     // Initialize pin
     if (PIN_Init(argc, argv)) return Usage();
-	fn = argv[argc-1];
+    fn = argv[argc-1];
 
 
-	outFile << fn << endl;
+    outFile << fn << endl;
     // Register Routine to be called to instrument rtn
     RTN_AddInstrumentFunction(Routine, 0);
 

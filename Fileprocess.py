@@ -7,10 +7,12 @@ def process(filename):
 
     access_map = {}
     
-    comm = '../../../pin -t obj-intel64/proccount.so -- ../../../a.out'.split()
+    comm_base = '../../../pin -t obj-intel64/proccount.so -- tempp/a.out '
     for key in func_map.keys():
-        comm.append(key)
-        call(comm)
+        comm = comm_base + key
+	print comm
+        #call(comm)
+
         f = open("myFile.out", "r")
         f.readline()
         ebp = int(f.readline().split()[-1], 16)
@@ -33,5 +35,4 @@ def process(filename):
                         access_map[var_name] = 1
 
         f.close()
-        comm.remove(comm[-1])
     return access_map
