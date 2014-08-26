@@ -86,7 +86,9 @@ def die_info_rec(die, func_map, global_map, type_map, struct_map, variables):
                 var_name =  bytes2str(attr.value)
             elif attr.name == 'DW_AT_location':
                 val = _location_list_extra(attr, die, ' ')
-                offset = int(val[val.index(':')+1:].strip()[:-1],16)
+                #offset = int(val[val.index(':')+1:].strip()[:-1],16)
+		offset_var = val[val.find(':')+1:val.find(')')].strip()
+		offset = int(offset_var,16)
             elif attr.name == 'DW_AT_decl_line':
                 line = attr.value
             elif attr.name == 'DW_AT_type':
@@ -94,15 +96,11 @@ def die_info_rec(die, func_map, global_map, type_map, struct_map, variables):
             elif attr.name == 'DW_AT_external':
                 global_flag = 1
 
-
-	if offset == -1:
-		pass	
-
 	if type_val in struct_map.keys():
 	    struct_var_name = var_name
 	    struct_offset = offset
 	    members = struct_map[type_val]
-	    for member in members.keys():	        
+	    for member in members.keys():
 		var_name = struct_var_name + "." + struct_map[type_val][member][0]
 		offset = struct_offset + struct_map[type_val][member][1]
 		addVariableInMap(global_flag, global_map, variables, offset, var_name, type_val, line)
@@ -136,5 +134,5 @@ def addVariableInMap(global_flag, global_map, variables, offset, var_name, type_
     if global_flag == 1:
         global_map[offset] = (var_name, type_val, line)
     else:
-        variables[offset + 18] = (var_name, type_val, line) 
+        variables[offset + 12] = (var_name, type_val, line) 
 	
