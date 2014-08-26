@@ -11,12 +11,15 @@ def process(filename):
     for key in func_map.keys():
 	inside_fn_map = {}
         comm = comm_base + key
-	print comm
+	#print comm
         #call(comm)
 
         f = open("myFile.out", "r")
         f.readline()
-        ebp = int(f.readline().split()[-1], 16)
+	try:
+            ebp = int(f.readline().split()[-1], 16)
+	except IndexError:
+	    continue
         for line in f.readlines():
             address = int(line.split()[-1], 16)
             if address in global_map.keys():
