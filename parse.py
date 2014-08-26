@@ -1,4 +1,3 @@
-from __future__ import print_function
 import sys
 from elftools.common.py3compat import (bytes2str, itervalues)
 from elftools.dwarf.descriptions import _location_list_extra
@@ -69,7 +68,7 @@ def die_info_rec(die, func_map, global_map, type_map, variables):
             global_map[offset] = (var_name, type_val, line)
 
         else:
-            variables[offset] = (var_name, type_val, line)
+            variables[offset + 12] = (var_name, type_val, line)
             
     elif die.tag == 'DW_TAG_base_type':
         type_name, size = '',0
@@ -88,9 +87,4 @@ def die_info_rec(die, func_map, global_map, type_map, variables):
     if die.tag == "DW_TAG_subprogram":
         #print (die.attributes)
         func_map[name] = variables       
-    
-            
-if __name__ == '__main__':
-    for filename in sys.argv[1:]:
-        process_file(filename)
 
