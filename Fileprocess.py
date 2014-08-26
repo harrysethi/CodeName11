@@ -3,10 +3,9 @@ from subprocess import call
 
 def process(filename):
 
-    func_map, global_map, type_map = parse.process_file(filename)
+    func_map, global_map, type_map, global_access_map = parse.process_file(filename)
 
     access_map = {}
-    global_access_map = {}
     
     comm_base = '../../../pin -t obj-intel64/proccount.so -- tempp/a.out '
     for key in func_map.keys():
@@ -21,15 +20,12 @@ def process(filename):
         for line in f.readlines():
             address = int(line.split()[-1], 16)
             if address in global_map.keys():
-	        print "reached somehow"
+		#print "reached "
                 name = global_map[address][0]
-                if name in global_access_map.keys():
-                    global_access_map[name] += 1
-                else:
-                    global_access_map[name] = 1    
+                global_access_map[name] += 1
             else:
                 offset = address - ebp - 16
-		print offset
+		#print offset
 
                 if offset in func_map[key].keys():
 		    var_loc = func_map[key][offset][2]
