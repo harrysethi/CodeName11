@@ -7,12 +7,12 @@ def process(filename):
 
     access_map = {}
     
-    comm_base = '../../../pin -t obj-intel64/proccount.so -- tempp/a.out '
+    comm_base = '../../../pin -t obj-intel64/proccount.so -- ./a.out '
     for key in func_map.keys():
 	inside_fn_map = {}
-        comm = comm_base + key
-	#print comm
-        #call(comm)
+        comm = (comm_base + key).split()
+	print comm
+        call(comm)
 
         f = open("myFile.out", "r")
         f.readline()
@@ -28,7 +28,7 @@ def process(filename):
                 global_access_map[name] += 1
             else:
                 offset = address - ebp - 16
-		#print offset
+		print offset
 
                 if offset in func_map[key].keys():
 		    var_loc = func_map[key][offset][2]
@@ -42,4 +42,12 @@ def process(filename):
         f.close()
 
     access_map["Global"] = global_access_map
-    return access_map
+    
+    print 'Printing Access Informaton:'
+    print '---------------------------\n\n'
+    for i in access_map.keys():
+        print i + ':\n\n'
+        for val in access_map[i].keys():
+            print str(val) + ' : ' + str(access_map[i][val])
+
+        print '\n\n'

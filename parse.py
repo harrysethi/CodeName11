@@ -36,7 +36,7 @@ def process_file(filename):
             # Display DIEs recursively starting with top_DIE
             die_info_rec(top_DIE, func_map, global_map, type_map, struct_map, variables, global_access_map)
 	
-	print func_map, global_map, type_map, global_access_map
+	
         return func_map, global_map, type_map, global_access_map
 
 def die_info_rec_struct(die, struct_map, members, global_access_map):
